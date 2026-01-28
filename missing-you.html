@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing You</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(to bottom, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            color: #fff;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            text-align: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            border-bottom: 2px dashed #e94560;
+        }
+
+        nav a {
+            margin: 0 20px;
+            text-decoration: none;
+            color: #e94560;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            transform: scale(1.2);
+            color: #ff6b6b;
+        }
+
+        /* Main Content */
+        .container {
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 50px;
+        }
+
+        h1 {
+            color: #e94560;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        /* Stars */
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 4s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        /* Moon */
+        .moon {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #f8f8f8 0%, #d0d0d0 100%);
+            border-radius: 50%;
+            top: 10%;
+            right: 10%;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        .moon::before {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #1a1a2e 0%, #16213e 100%);
+            border-radius: 50%;
+            top: -10px;
+            right: -20px;
+        }
+
+        /* Message Container */
+        .message-container {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            border: 2px dashed #e94560;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .message-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(233, 69, 96, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 5s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .message {
+            position: relative;
+            z-index: 1;
+        }
+
+        .message p {
+            color: #fff;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .message .signature {
+            text-align: right;
+            font-style: italic;
+            color: #e94560;
+            font-size: 1.2rem;
+        }
+
+        /* Floating Hearts */
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #e94560;
+            transform: rotate(45deg);
+            opacity: 0;
+            animation: float-up 5s infinite;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #e94560;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes float-up {
+            0% {
+                opacity: 0;
+                transform: translateY(100px) rotate(45deg) scale(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(45deg) scale(1.5);
+            }
+        }
+
+        /* Interactive Elements */
+        .interactive-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 20px;
+        }
+
+        .memory-box {
+            width: 150px;
+            height: 150px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 2px solid #e94560;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .memory-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(233, 69, 96, 0.3);
+        }
+
+        .memory-box .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .memory-box .label {
+            font-size: 0.9rem;
+            color: #e94560;
+        }
+
+        .memory-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(233, 69, 96, 0.1);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .memory-box:hover::before {
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            nav a { margin: 0 10px; font-size: 1rem; }
+            .message-container { margin: 0 20px; padding: 20px; }
+            .message p { font-size: 1.1rem; }
+            .interactive-container { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="missing-you.html">Missing You</a>
+        <a href="love-poem.html">Love Poem</a>
+    </nav>
+
+    <div class="container">
+        <h1>Missing You</h1>
+        
+        <div class="moon"></div>
+        
+        <!-- Stars will be generated with JavaScript -->
+        
+        <div class="message-container">
+            <div class="message">
+                <p>Every night I look up at the stars and wonder if you're looking at them too. The distance between us feels like an ocean, but my heart finds a way to cross it, just to be with you in my dreams.</p>
+                
+                <p>Every moment without you feels like an eternity, yet I hold onto the memories we've created. They're my anchor in this sea of missing you.</p>
+                
+                <p>Until we meet again, know that you're always in my thoughts, in my heart, and in every wish I make upon a falling star.</p>
+                
+                <p class="signature">Forever yours, across the miles</p>
+            </div>
+        </div>
+        
+        <div class="interactive-container">
+            <div class="memory-box" data-memory="laugh">
+                <div class="icon">😊</div>
+                <div class="label">Your Laugh</div>
+            </div>
+            <div class="memory-box" data-memory="smile">
+                <div class="icon">😄</div>
+                <div class="label">Your Smile</div>
+            </div>
+            <div class="memory-box" data-memory="hug">
+                <div class="icon">🤗</div>
+                <div class="label">Your Hug</div>
+            </div>
+            <div class="memory-box" data-memory="voice">
+                <div class="icon">🎵</div>
+                <div class="label">Your Voice</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate stars
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.width = `${Math.random() * 3}px`;
+            star.style.height = star.style.width;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 4}s`;
+            document.body.appendChild(star);
+        }
+
+        // Generate floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.animationDuration = `${5 + Math.random() * 5}s`;
+            heart.style.animationDelay = `${Math.random() * 5}s`;
+            document.body.appendChild(heart);
+            
+            // Remove heart after animation completes
+            setTimeout(() => {
+                heart.remove();
+            }, 10000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 2000);
+
+        // Initial hearts
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createHeart, i * 1000);
+        }
+
+        // Memory box interactions
+        const memoryBoxes = document.querySelectorAll('.memory-box');
+        const messageContainer = document.querySelector('.message');
+        
+        const memoryMessages = {
+            laugh: "I miss the way your laugh lights up the room, how it starts small and then grows into something contagious that makes everyone around you smile.",
+            smile: "I miss your smile - the way it reaches your eyes and makes them sparkle. It's my favorite sight in the world.",
+            hug: "I miss the warmth of your hugs, how safe and loved I felt in your arms. Nothing compares to that feeling.",
+            voice: "I miss the sound of your voice, whether you're whispering secrets or sharing stories. It's the melody that plays in my mind."
+        };
+        
+        memoryBoxes.forEach(box => {
+            box.addEventListener('click', function() {
+                const memory = this.getAttribute('data-memory');
+                const newMessage = document.createElement('p');
+                newMessage.textContent = memoryMessages[memory];
+                newMessage.style.color = '#e94560';
+                newMessage.style.fontStyle = 'italic';
+                newMessage.style.opacity = '0';
+                
+                // Find a good place to insert the new message
+                const signature = document.querySelector('.signature');
+                messageContainer.insertBefore(newMessage, signature);
+                
+                // Fade in the new message
+                setTimeout(() => {
+                    newMessage.style.transition = 'opacity 1s ease';
+                    newMessage.style.opacity = '1';
+                }, 100);
+                
+                // Create extra hearts when a memory is clicked
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(createHeart, i * 300);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

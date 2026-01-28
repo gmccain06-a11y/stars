@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Poem</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            text-align: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            border-bottom: 2px dashed #ff6b6b;
+        }
+
+        nav a {
+            margin: 0 20px;
+            text-decoration: none;
+            color: #ff6b6b;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            transform: scale(1.2);
+            color: #e63946;
+        }
+
+        /* Main Content */
+        .container {
+            padding-top: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 50px;
+        }
+
+        h1 {
+            color: #e63946;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Poem Container */
+        .poem-container {
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            border: 2px dashed #ff6b6b;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .poem {
+            position: relative;
+            z-index: 1;
+        }
+
+        .poem h2 {
+            color: #e63946;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .poem p {
+            color: #333;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        .poem p:nth-child(2) { animation-delay: 0.5s; }
+        .poem p:nth-child(3) { animation-delay: 1s; }
+        .poem p:nth-child(4) { animation-delay: 1.5s; }
+        .poem p:nth-child(5) { animation-delay: 2s; }
+        .poem p:nth-child(6) { animation-delay: 2.5s; }
+        .poem p:nth-child(7) { animation-delay: 3s; }
+        .poem p:nth-child(8) { animation-delay: 3.5s; }
+        .poem p:nth-child(9) { animation-delay: 4s; }
+        .poem p:nth-child(10) { animation-delay: 4.5s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .poem .signature {
+            text-align: right;
+            font-style: italic;
+            color: #e63946;
+            font-size: 1.2rem;
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+            animation-delay: 5s;
+        }
+
+        /* Decorative Elements */
+        .decoration {
+            position: absolute;
+            opacity: 0.2;
+        }
+
+        .decoration.top-left {
+            top: 20px;
+            left: 20px;
+            font-size: 3rem;
+            transform: rotate(-15deg);
+        }
+
+        .decoration.top-right {
+            top: 20px;
+            right: 20px;
+            font-size: 3rem;
+            transform: rotate(15deg);
+        }
+
+        .decoration.bottom-left {
+            bottom: 20px;
+            left: 20px;
+            font-size: 3rem;
+            transform: rotate(-15deg);
+        }
+
+        .decoration.bottom-right {
+            bottom: 20px;
+            right: 20px;
+            font-size: 3rem;
+            transform: rotate(15deg);
+        }
+
+        /* Floating Hearts Background */
+        .heart-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .heart-bg .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(230, 57, 70, 0.3);
+            transform: rotate(45deg);
+            animation: float-heart 15s infinite linear;
+        }
+
+        .heart-bg .heart::before,
+        .heart-bg .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(230, 57, 70, 0.3);
+            border-radius: 50%;
+        }
+
+        .heart-bg .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart-bg .heart::after {
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes float-heart {
+            0% {
+                transform: translateY(100vh) rotate(45deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* Interactive Elements */
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #e63946;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            background-color: #d62828;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Music Note Animation */
+        .music-note {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(230, 57, 70, 0.5);
+            animation: float-note 5s infinite linear;
+            opacity: 0;
+        }
+
+        @keyframes float-note {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            nav a { margin: 0 10px; font-size: 1rem; }
+            .poem-container { margin: 0 20px; padding: 20px; }
+            .poem p { font-size: 1.1rem; }
+            .poem h2 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="missing-you.html">Missing You</a>
+        <a href="love-poem.html">Love Poem</a>
+    </nav>
+
+    <div class="container">
+        <h1>A Love Poem For You</h1>
+        
+        <div class="poem-container">
+            <div class="decoration top-left">❤️</div>
+            <div class="decoration top-right">🌹</div>
+            <div class="decoration bottom-left">💕</div>
+            <div class="decoration bottom-right">✨</div>
+            
+            <div class="poem">
+                <h2>In Your Eyes</h2>
+                
+                <p>In your eyes, I see the stars that light up my darkest nights,</p>
+                <p>In your smile, I find the warmth that melts away my frights.</p>
+                <p>In your voice, I hear the melody that my heart longs to keep,</p>
+                <p>In your touch, I feel the comfort that helps me fall asleep.</p>
+                
+                <p>You are the sun that rises in my morning sky,</p>
+                <p>You are the moon that guides me when the day is nigh.</p>
+                <p>You are the anchor that holds me in life's stormy sea,</p>
+                <p>You are the treasure that means more than all to me.</p>
+                
+                <p>So take this heart, it beats for you alone,</p>
+                <p>Take this love, it's yours to keep and own.</p>
+                
+                <p class="signature">Forever and always, yours</p>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="playBtn">Play Music</button>
+            <button class="btn" id="heartsBtn">More Hearts</button>
+            <button class="btn" id="shareBtn">Share Love</button>
+        </div>
+        
+        <div class="heart-bg">
+            <!-- Hearts will be generated with JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Generate floating hearts
+        const heartBg = document.querySelector('.heart-bg');
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.animationDuration = `${10 + Math.random() * 10}s`;
+            heart.style.animationDelay = `${Math.random() * 10}s`;
+            heart.style.width = `${10 + Math.random() * 20}px`;
+            heart.style.height = heart.style.width;
+            heartBg.appendChild(heart);
+            
+            // Remove heart after animation completes
+            setTimeout(() => {
+                heart.remove();
+            }, 20000);
+        }
+
+        // Create initial hearts
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createHeart, i * 1000);
+        }
+
+        // Create hearts periodically
+        setInterval(createHeart, 3000);
+
+        // Button interactions
+        document.getElementById('playBtn').addEventListener('click', function() {
+            // Create music notes animation
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const note = document.createElement('div');
+                    note.classList.add('music-note');
+                    note.textContent = ['♪', '♫', '♬'][Math.floor(Math.random() * 3)];
+                    note.style.left = `${40 + Math.random() * 20}%`;
+                    note.style.bottom = '20px';
+                    document.querySelector('.poem-container').appendChild(note);
+                    
+                    // Remove note after animation completes
+                    setTimeout(() => {
+                        note.remove();
+                    }, 5000);
+                }, i * 200);
+            }
+            
+            // Change button text temporarily
+            const originalText = this.textContent;
+            this.textContent = 'Playing...';
+            setTimeout(() => {
+                this.textContent = originalText;
+            }, 2000);
+        });
+
+        document.getElementById('heartsBtn').addEventListener('click', function() {
+            // Create burst of hearts
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.style.position = 'absolute';
+                    heart.style.left = '50%';
+                    heart.style.bottom = '100px';
+                    heart.style.backgroundColor = '#e63946';
+                    heart.style.transform = 'rotate(45deg)';
+                    heart.style.zIndex = '1000';
+                    
+                    // Create pseudo-elements for heart shape
+                    const before = document.createElement('div');
+                    before.style.position = 'absolute';
+                    before.style.width = '20px';
+                    before.style.height = '20px';
+                    before.style.backgroundColor = '#e63946';
+                    before.style.borderRadius = '50%';
+                    before.style.top = '-10px';
+                    before.style.left = '0';
+                    
+                    const after = document.createElement('div');
+                    after.style.position = 'absolute';
+                    after.style.width = '20px';
+                    after.style.height = '20px';
+                    after.style.backgroundColor = '#e63946';
+                    after.style.borderRadius = '50%';
+                    after.style.top = '0';
+                    after.style.left = '-10px';
+                    
+                    heart.appendChild(before);
+                    heart.appendChild(after);
+                    
+                    document.body.appendChild(heart);
+                    
+                    // Animate heart burst
+                    const angle = (Math.PI * 2 * i) / 20;
+                    const velocity = 5 + Math.random() * 5;
+                    let posX = 0;
+                    let posY = 0;
+                    let opacity = 1;
+                    
+                    const animateHeart = () => {
+                        posX += Math.cos(angle) * velocity;
+                        posY += Math.sin(angle) * velocity;
+                        opacity -= 0.02;
+                        
+                        heart.style.transform = `translate(${posX}px, ${posY}px) rotate(45deg)`;
+                        heart.style.opacity = opacity;
+                        
+                        if (opacity > 0) {
+                            requestAnimationFrame(animateHeart);
+                        } else {
+                            heart.remove();
+                        }
+                    };
+                    
+                    requestAnimationFrame(animateHeart);
+                }, i * 50);
+            }
+            
+            // Change button text temporarily
+            const originalText = this.textContent;
+            this.textContent = 'Hearts Sent!';
+            setTimeout(() => {
+                this.textContent = originalText;
+            }, 2000);
+        });
+
+        document.getElementById('shareBtn').addEventListener('click', function() {
+            // Create share animation
+            const shareText = document.createElement('div');
+            shareText.textContent = 'Love shared! 💕';
+            shareText.style.position = 'fixed';
+            shareText.style.top = '50%';
+            shareText.style.left = '50%';
+            shareText.style.transform = 'translate(-50%, -50%)';
+            shareText.style.backgroundColor = '#e63946';
+            shareText.style.color = 'white';
+            shareText.style.padding = '20px 40px';
+            shareText.style.borderRadius = '50px';
+            shareText.style.fontSize = '1.5rem';
+            shareText.style.zIndex = '2000';
+            shareText.style.opacity = '0';
+            shareText.style.transition = 'opacity 0.5s ease';
+            
+            document.body.appendChild(shareText);
+            
+            // Fade in
+            setTimeout(() => {
+                shareText.style.opacity = '1';
+            }, 100);
+            
+            // Fade out and remove
+            setTimeout(() => {
+                shareText.style.opacity = '0';
+                setTimeout(() => {
+                    shareText.remove();
+                }, 500);
+            }, 2000);
+            
+            // Change button text temporarily
+            const originalText = this.textContent;
+            this.textContent = 'Shared!';
+            setTimeout(() => {
+                this.textContent = originalText;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
